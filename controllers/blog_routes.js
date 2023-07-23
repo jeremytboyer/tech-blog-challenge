@@ -13,6 +13,7 @@ function isAuthenticated(req, res, next) {
 // Add a thought
 router.post("/blog", isAuthenticated, async (req, res) => {
   await Blog.create({
+    title: req.body.title,
     text: req.body.text,
     userId: req.session.user_id,
   });
@@ -20,4 +21,17 @@ router.post("/blog", isAuthenticated, async (req, res) => {
   res.redirect("/dashboard");
 });
 
+router.put('/edit/:id', async (req, res) => {
+  // update a blog by its `id` value
+  const blogId = req.params.id
+  const {title, text} = req.body
+  const updatedBlog = await Blog.update({title, text},{
+    where: {
+      id: blogId
+    }
+  })
+  res.send(updatedBlog)
+});
+
 module.exports = router;
+

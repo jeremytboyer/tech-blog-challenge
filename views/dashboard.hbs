@@ -1,14 +1,18 @@
 <h1>Dashboard</h1>
 
 <form action="/blog" method="POST">
-  <input name="text" type="text" placeholder="Share your thought">
+  <input name="title" type="text" placeholder="Enter a title">
+
+ <textarea name="text" id="text" cols="30" rows="10" placeholder="Enter your blog"></textarea>
   <button>Submit</button>
 </form>
 
 <main class="blogs">
   {{#each blogs}}
     <div class="blog">
+      <h2>{{title}}</h2>
       <p>{{text}}</p>
+     <a href="/edit/{{id}}"><p>Click to edit this post</p></a>
     </div>
   {{/each}}
 </main>

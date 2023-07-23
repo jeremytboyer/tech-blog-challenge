@@ -1,0 +1,43 @@
+<h1>Edit</h1>
+
+<form id="editForm" action="/edit/{{blog.blogId}}" method="POST">
+  <input type="hidden" name="_method" value="PUT">
+  <input name="title" type="text" value="{{blog.title}}" placeholder="Enter a title">
+
+ <textarea name="text" id="text" cols="30" rows="10" placeholder="Enter your blog">{{blog.text}}</textarea>
+  <button>Submit</button>
+</form>
+
+
+<script>
+  // Add an event listener to the form submission
+  document.getElementById('editForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    
+    const form = event.target;
+    const formData = new FormData(form);
+
+    // Use fetch to perform the PUT request
+    fetch(form.action, {
+      method: 'PUT',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Blog updated successfully:', data);
+      // Handle any success behavior here, e.g., redirect to a success page.
+    })
+    .catch(error => {
+      console.error('Error updating blog:', error);
+      // Handle any error behavior here, e.g., show an error message to the user.
+    });
+  });
+</script>
+
+
+
+
+
+
+

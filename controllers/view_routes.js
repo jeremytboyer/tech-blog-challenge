@@ -48,11 +48,12 @@ router.get("/dashboard", isAuthenticated, async (req, res) => {
   const user = await User.findByPk(req.session.user_id, {
     include: Blog,
   });
-console.log(user);
   const blogs = user.Blogs.map((t) => t.get({ plain: true }));
 
+  console.log(blogs);
   // The user IS logged in
   res.render("dashboard", {
+    id: user.id,
     email: user.email,
     blogs: blogs,
   });
@@ -66,5 +67,21 @@ router.get("/login", (req, res) => {
     isLogin: true,
   });
 });
+
+// Show edit page
+router.get('/edit/:id', isAuthenticated, async (req, res) => {
+  const blogId = req.params.id
+  const blog = await Blog.findByPk(blogId)
+
+  const blogData = {
+    blogId: blogId,
+    title: blog.title,
+    text: blog.text,
+  }
+
+  res.render('edit', {
+    blog: blogData
+  })
+})
 
 module.exports = router;
