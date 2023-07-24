@@ -13,6 +13,33 @@
       <h2>{{title}}</h2>
       <p>{{text}}</p>
      <a href="/edit/{{id}}"><p>Click to edit this post</p></a>
+     <button data-blog-id="{{id}}" class="remove-button">Delete Post</button>
     </div>
   {{/each}}
 </main>
+
+<script>
+  const deleteButtons = document.querySelectorAll('.remove-button');
+// console.log('button delete:', deleteButtons);
+// Loop through each delete button and attach the event listener
+deleteButtons.forEach(deleteButton => {
+  deleteButton.addEventListener('click', async (event) => {
+    event.preventDefault(); 
+     if (event.target.classList.contains('remove-button')) {
+        const blogId = event.target.getAttribute('data-blog-id');
+        console.log('blog ID to delete:', blogId);
+ 
+    const response = await fetch(`/blog/${blogId}`, {
+      method: 'DELETE',
+    });
+    if (response.ok){
+        event.target.parentElement.remove();
+    } else {
+        alert('Failed to delete blog');
+    }
+    }
+  });
+    
+});
+
+</script>

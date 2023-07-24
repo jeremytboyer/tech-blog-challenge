@@ -41,5 +41,14 @@ router.put('/edit/:id', async (req, res) => {
   res.send(updatedBlog)
 });
 
+router.delete('/blog/:id', async (req, res) => {
+   await Blog.destroy({
+    where: {
+      id: req.params.id
+    }
+   })
+   res.send('ok')
+})
+
 module.exports = router;
 
