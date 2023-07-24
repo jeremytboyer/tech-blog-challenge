@@ -2,7 +2,7 @@
 
 <form id="editForm" action="/edit/{{blog.blogId}}" method="POST">
   <input type="hidden" name="_method" value="PUT">
-  <input name="title" type="text" value="{{blog.title}}" placeholder="Enter a title">
+  <input name="title" id="title" type="text" value="{{blog.title}}" placeholder="Enter a title">
 
  <textarea name="text" id="text" cols="30" rows="10" placeholder="Enter your blog">{{blog.text}}</textarea>
   <button>Submit</button>
@@ -13,15 +13,21 @@
   // Add an event listener to the form submission
   document.getElementById('editForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent the default form submission
-
-    
+    const title = document.querySelector("#title").value
+    const text = document.querySelector("#text").value
     const form = event.target;
-    const formData = new FormData(form);
+     const formData = {
+      title: title,
+      text: text
+    }
 
     // Use fetch to perform the PUT request
     fetch(form.action, {
       method: 'PUT',
-      body: formData
+       headers: {
+        'Content-Type': 'application/json' // Specify the content type as JSON
+      },
+      body: JSON.stringify(formData) // Convert the object to a JSON string
     })
     .then(response => response.json())
     .then(data => {

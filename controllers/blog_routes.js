@@ -1,6 +1,10 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const bodyParser = require('body-parser')
 const Blog = require("../models/Blog");
+const express = require('express')
+const app = express()
+
 
 function isAuthenticated(req, res, next) {
   const isAuthenticated = req.session.user_id;
@@ -9,6 +13,9 @@ function isAuthenticated(req, res, next) {
 
   next();
 }
+
+app.use(bodyParser.json())
+
 
 // Add a thought
 router.post("/blog", isAuthenticated, async (req, res) => {
@@ -25,6 +32,7 @@ router.put('/edit/:id', async (req, res) => {
   // update a blog by its `id` value
   const blogId = req.params.id
   const {title, text} = req.body
+ 
   const updatedBlog = await Blog.update({title, text},{
     where: {
       id: blogId

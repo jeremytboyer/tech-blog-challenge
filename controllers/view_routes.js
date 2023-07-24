@@ -80,7 +80,8 @@ router.get('/edit/:id', isAuthenticated, async (req, res) => {
   }
 
   res.render('edit', {
-    blog: blogData
+    blog: blogData,
+    isLoggedIn: req.session.user_id,
   })
 })
 
